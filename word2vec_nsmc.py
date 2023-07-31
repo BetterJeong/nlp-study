@@ -102,6 +102,13 @@ print(X_train[:3])
 y_train = np.array(train_data['label'])
 y_test = np.array(test_data['label'])
 
+# --------------------- 빈 샘플 제거 ---------------------
+drop_train = [index for index, sentence in enumerate(X_train) if len(sentence) < 1]
+X_train = np.delete(X_train, drop_train, axis=0)
+y_train = np.delete(y_train, drop_train, axis=0)
+print(len(X_train))
+print(len(y_train))
+
 # --------------------- 패딩 ---------------------
 print("리뷰의 최대 길이:", max(len(review) for review in X_train))
 print("리뷰의 평균 길이:", sum(map(len, X_train)) / len(X_train))
@@ -115,10 +122,3 @@ below_threshold_len(max_len, X_train)
 
 X_train = pad_sequences(X_train, maxlen=max_len)
 X_test = pad_sequences(X_test, maxlen=max_len)
-
-# --------------------- 빈 샘플 제거 ---------------------
-drop_train = [index for index, sentence in enumerate(X_train) if len(sentence) < 1]
-X_train = np.delete(X_train, drop_train, axis=0)
-y_train = np.delete(y_train, drop_train, axis=0)
-print(len(X_train))
-print(len(y_train))
